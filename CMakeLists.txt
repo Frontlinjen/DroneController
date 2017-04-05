@@ -116,6 +116,7 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
+  src/,
   ${catkin_INCLUDE_DIRS}
 )
 
@@ -199,6 +200,6 @@ include_directories(
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-add_executable(Pilot src/Pilot.cpp)
+add_executable(Pilot src/Pilot.cpp src/Main.cpp)
 target_link_libraries(Pilot ${catkin_LIBRARIES})
 add_dependencies(Pilot beginner_tutorials_generate_messages_cpp)
