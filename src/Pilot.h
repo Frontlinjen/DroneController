@@ -23,5 +23,6 @@ class Pilot{
 		void flattrim();
 		void reset();
 		void goTo(float x, float y, float z, float yaw);
+		void moveBy(float x, float y, float z, float yaw);
 		void prepare();
 };

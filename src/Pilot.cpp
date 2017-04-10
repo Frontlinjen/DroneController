@@ -66,6 +66,15 @@
 		ros::spinOnce();
 		loop_rate.sleep();
 	}
+	
+	void Pilot::moveBy(float x, float y, float z, float yaw){
+		std::stringstream com;
+		com << "c moveBy " << x << " " << y << " " << z << " " << yaw;
+		comPub.publish(command(com.str()));
+		ROS_INFO("Sent moveBy");
+		ros::spinOnce();
+		loop_rate.sleep();
+	}
 
 	void Pilot::prepare(){
 		ROS_INFO("Preparing...");
@@ -80,4 +89,3 @@
 		//loop_rate.sleep();
 		ROS_INFO("Done.");
 	}
-
