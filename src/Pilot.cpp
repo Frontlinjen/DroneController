@@ -53,9 +53,11 @@ void Pilot::mainLoop(){
 	}
 
 	while(ros::ok){ //Main loop
+		Vec3f ventry = *nextTarget.calculateEntry();
+		Vec3f vexit = *nextTarget.calculateExit();
 		if(goingToRing){
 			if(entryPointReached){
-				commands.moveBy((*nextTarget).exitX, (*nextTarget).exitY, (*nextTarget).exitZ,0);
+				commands.moveBy(vexit.at(0), vexit.at(1), vexit.at(2), 0);
 			}
 		}
 		else{
@@ -66,12 +68,12 @@ void Pilot::mainLoop(){
 					lookForRings();
 				}
 				else{
-					commands.moveBy((*nextTarget).entryX, (*nextTarget).entryY, (*nextTarget).entryZ,0);
+					commands.moveBy(ventry.at(0), ventry.at(1), ventry.at(2), 0);
 				}
 			}
 			else{
 				goingToRing = true;
-				commands.moveBy((*nextTarget).entryX, (*nextTarget).entryY, (*nextTarget).entryZ,0);
+				commands.moveBy(ventry.at(0), ventry.at(1), ventry.at(2), 0);
 			}
 		}
 	}
