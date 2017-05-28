@@ -12,14 +12,11 @@ void opencvCallback(const std_msgs::String::ConstPtr& msg){
 void msgHandle(std_msgs::String::ConstPtr& msg){
 	std::getline(std::cin, msg);
 	std::stringstream stream(msg);
-	float f;
-	vector<float> fv;
-	stream >> f;
-	if(!stream)
-		break;
-	while(stream >> f)
-		fv.push_back(f);
-	Ring(fv.at(0), fv.at(1), fv.at(2), fv.at(3), fv.at(4), fv.at(5), fv.at(6));
+	int ringnumber;
+	Vector origo, direction;
+	stream >> origo->x >> origo->y >> origo->z >> direction->x >> direction->y >> direction->z >> ringnumber;
+
+	Ring(origo, direction, ringnumber);
 }
 
 
