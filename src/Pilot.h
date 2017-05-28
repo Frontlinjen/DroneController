@@ -15,8 +15,6 @@ class Pilot{
 	private:
 		int nextRingNumber = 0;
 		std::vector<Ring> commandqueue;
-		bool goingToRing = false; //If drone is doing something that is not advancing to the next ring
-		bool entryPointReached = false;
 		Ring* nextTarget;
 		Commands commands;
 		void successfullyReachedRing();
@@ -24,6 +22,8 @@ class Pilot{
 		void lookForRings();
 		Ring* searchForNextRing();
 		Ring* searchForClosestUnknownRing();
+		enum statusType{GoingToNextRing, GoingToUnknownRing, AtEntryPoint, Idle};
+		statusType status = Idle;
 
 	public:
 		void mainLoop();
