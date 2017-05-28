@@ -1,15 +1,5 @@
 #include "Pilot.h"
 
-void Pilot::successfullyReachedRing(){
-	entryPointReached = true;
-}
-
-void Pilot::successfullyPassedRing(){
-	nextRingNumber++;
-	goingToRing = false;
-	entryPointReached = false;
-}
-
 void Pilot::lookForRings(){
 	commands.goTo(0,0,0,360);
 }
@@ -53,9 +43,10 @@ void Pilot::mainLoop(){
 		switch(currentStatus){
 			case GoingtToNextRing:
 				//Reached destination?
-				if(){
+				if(pointReached.isPointReached()){
 					currentStatus = AtEntryPoint;
 					commands.moveBy(vexit.at(0), vexit.at(1), vexit.at(2), 0);
+					pointReached.listenForPointReached();
 				}
 				break;
 			case GoingToUnknownRing:
@@ -67,15 +58,17 @@ void Pilot::mainLoop(){
 					Vec3f ventry = *nextTarget.calculateEntry();
 					Vec3f vexit = *nextTarget.calculateExit();
 					commands.moveBy(ventry.at(0), ventry.at(1), ventry.at(2), 0);
+					pointReached.listenForPointReached();
 				}
 				//Reached destination?
-				else if(){
+				else if(pointReached.isPointReached()){
 					currentStatus = Idle;
 				}
 				break;
 			case AtEntryPoint:
 				//Passed Ring?
-				if(){
+				if(pointReached.isPointReached()){
+					nextRingNumber++;
 					currentStatus = Idle;
 				}
 				break;
@@ -92,6 +85,7 @@ void Pilot::mainLoop(){
 						Vec3f ventry = *nextTarget.calculateEntry();
 						Vec3f vexit = *nextTarget.calculateExit();
 						commands.moveBy(ventry.at(0), ventry.at(1), ventry.at(2), 0);
+						pointReached.listenForPointReached();
 					}
 				}
 				else{
@@ -99,37 +93,9 @@ void Pilot::mainLoop(){
 					Vec3f ventry = *nextTarget.calculateEntry();
 					Vec3f vexit = *nextTarget.calculateExit();
 					commands.moveBy(ventry.at(0), ventry.at(1), ventry.at(2), 0);
+					pointReached.listenForPointReached();
 				}
 				break;
 		}
-
-		//Old algorithm, scrapped because it was ugly
-		/*if(goingToRing){
-			if(entryPointReached){
-				commands.moveBy(vexit.at(0), vexit.at(1), vexit.at(2), 0);
-				//Listen for response
-			}
-		}
-		else{
-			nextTarget = searchForNextRing();
-			if(nextTarget == NULL){
-				nextTarget = searchForClosestUnknownRing();
-				if(nextTarget == NULL){
-					lookForRings();
-				}
-				else{
-					Vec3f ventry = *nextTarget.calculateEntry();
-					Vec3f vexit = *nextTarget.calculateExit();
-					commands.moveBy(ventry.at(0), ventry.at(1), ventry.at(2), 0);
-				}
-			}
-			else{
-				Vec3f ventry = *nextTarget.calculateEntry();
-				Vec3f vexit = *nextTarget.calculateExit();
-				goingToRing = true;
-				commands.moveBy(ventry.at(0), ventry.at(1), ventry.at(2), 0);
-				//ListenforResponse
-			}
-		}
-	}*/
+	}
 }

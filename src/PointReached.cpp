@@ -3,6 +3,10 @@
 
 void chatterCallBack(const std_msgs::String::ConstPtr& msg){
 	ROS_INFO("PointReached: I heard: %s", msg->data.c_str());
+	if(listening){
+		reached = true;
+		listening = false;
+	}
 }
 
 PointReached::PointReached() : loop_rate(10){
@@ -11,7 +15,7 @@ PointReached::PointReached() : loop_rate(10){
 
 void PointReached::listenForPointReached(){
 	reached = false;
-
+	listening = true;
 }
 
 bool isPointReached(){
