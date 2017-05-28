@@ -1,91 +1,78 @@
-#include "ros/ros.h"
-#include "std_msgs/String.h"
-#include "std_msgs/Empty.h"
-#include "std_srvs/Empty.h"
 #include "Pilot.h"
-#include <sstream>
-#include <string>
 
-	Pilot::Pilot() : loop_rate(10){
-		comPub = n.advertise<std_msgs::String>(n.resolveName("tum_ardrone/com"), 50);
-		flattrimClient = n.serviceClient<std_srvs::Empty>(n.resolveName("ardrone/flattrim"),1);	
-		ros::Duration(2).sleep();
+void Pilot::successfullyReachedRing(){
+	entryPointReached = true;
+}
+
+void Pilot::successfullyPassedRing(){
+	nextRingNumber++;
+	goingToRing = false;
+	entryPointReached = false;
+}
+
+void Pilot::lookForRings(){
+	commands.goTo(0,0,0,360);
+}
+
+Ring* Pilot::searchForNextRing(){ //TODO slå sammen med den anden method
+	for(int i = 0; i < commandqueue.size(); i++){
+		if(commandqueue[i].ringNumber == nextRingNumber){ //If commandqueue contains next ring. go there.
+			return &commandqueue[i];
+		}
 	}
+	return NULL;
+}
 
-	void Pilot::comCallback(const std_msgs::String::ConstPtr& msg){
-		ROS_INFO("com: I heard: %s", msg->data.c_str());
+Ring* Pilot::searchForClosestUnknownRing(){
+	Ring * bestCandidate = NULL;
+	float shortestDistance;
+	for(int i = 0; i < commandqueue.size(); i++){
+		if(commandqueue[i].ringNumber != -1){
+			//TODO Mypos does not exist. Find out position of drone (from stateestimation?)
+			float distanceToRing = sqrt(pow(mypos.x - commandqueue[i].oX)+pow(mypos.y - commandqueue[i].oY)+pow(mypos.z - commandqueue[i].oZ)); //distance to point
+			if(bestCandidate == NULL || distanceToRing < shortestDistance){
+				bestCandidate = &commandqueue[i];
+				shortestDistance = distanceToRing;
+			}
+		}
 	}
+	return bestCandidate;
+}
 
-	std_msgs::String Pilot::command(std::string command){
-		std_msgs::String st_cmd;
-		st_cmd.data = command;
-		return st_cmd;
-	}
+void setEntryPointReached(bool value){
+	entryPointReached = value;
+}
 
-	void Pilot::autoInit(){
-		comPub.publish(command("c autoInit 500 800 4000 0.5"));
-		ROS_INFO("Sent autoInit");
-		ros::spinOnce();
-		loop_rate.sleep();
-	}
-
-	void Pilot::land(){
-		comPub.publish(command("c land"));
-		ROS_INFO("Sent land");
-		ros::spinOnce();
-		loop_rate.sleep();
-	}
-
-	void Pilot::takeoff(){
-		comPub.publish(command("c takeoff"));
-		ROS_INFO("Sent takeoff");
-		ros::spinOnce();
-		loop_rate.sleep();
-	}
-
-	void Pilot::flattrim(){
-		std_srvs::Empty flat;
-		flattrimClient.call(flat);
-		ROS_INFO("Sent flattrim");
-		ros::spinOnce();
-		loop_rate.sleep();
-	}
-
-	void Pilot::reset(){
-		//TODO call reset
-		ROS_INFO("Sent reset");
-		ros::spinOnce();
-		loop_rate.sleep();
+void Pilot::mainLoop(){
+	if(ros::ok()){
+		commands.prepare();
+		commands.flattrim();
+		commands.autoInit();
+		/*p.goTo(0,1,0,0);
+		p.land();*/
 	}
 
-	void Pilot::goTo(float x, float y, float z, float yaw){
-		std::stringstream com;
-		com << "c goto " << x << " " << y << " " << z << " " << yaw;
-		comPub.publish(command(com.str()));
-		ROS_INFO("Sent goto");
-		ros::spinOnce();
-		loop_rate.sleep();
+	while(ros::ok){ //Main loop
+		if(goingToRing){
+			if(entryPointReached){
+				commands.moveBy((*nextTarget).exitX, (*nextTarget).exitY, (*nextTarget).exitZ,0);
+			}
+		}
+		else{
+			nextTarget = searchForNextRing();
+			if(nextTarget == NULL){
+				nextTarget = searchForClosestUnknownRing();
+				if(nextTarget == NULL){
+					lookForRings();
+				}
+				else{
+					commands.moveBy((*nextTarget).entryX, (*nextTarget).entryY, (*nextTarget).entryZ,0);
+				}
+			}
+			else{
+				goingToRing = true;
+				commands.moveBy((*nextTarget).entryX, (*nextTarget).entryY, (*nextTarget).entryZ,0);
+			}
+		}
 	}
-	
-	void Pilot::moveBy(float x, float y, float z, float yaw){
-		std::stringstream com;
-		com << "c moveBy " << x << " " << y << " " << z << " " << yaw;
-		comPub.publish(command(com.str()));
-		ROS_INFO("Sent moveBy");
-		ros::spinOnce();
-		loop_rate.sleep();
-	}
-
-	void Pilot::prepare(){
-		ROS_INFO("Preparing...");
-		comPub.publish(command("c start"));
-		ros::spinOnce();
-		loop_rate.sleep();
-		//TODO Calibrate
-		//ros::spinOnce();
-		//loop_rate.sleep();
-		//TODO Flattrim
-		//ros::spinOnce();
-		//loop_rate.sleep();
-		ROS_INFO("Done.");
-	}
+}
