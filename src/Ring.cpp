@@ -4,14 +4,20 @@ Ring::Ring(){
 
 }
 
-Ring::Ring(float oX, float oY, float oZ, float dX, float dY, float dZ, int ringNumber){
-	this.oX = oX;
-	this.oY = oY;
-	this.oZ = oZ;
-	this.dX = dX;
-	this.dY = dY;
-	this.dZ = dZ;
+Ring::Ring(Vec3f origo, Vec3f direction, int ringNumber){
+	this.origo = origo;
+	this.direction = direction;
 	this.ringNumber = ringNumber;
+}
 
-	//TODO Calculate entry and exit points
+Vec3f Ring::calculateEntry(Vec3f origo, Vec3f direction){
+	Vec3f v;
+	v = origo - direction;
+	return v;
+}
+
+Vec3f Ring::calculateExit(){
+	Vec3f v;
+	v = origo + direction;
+	return v;
 }
