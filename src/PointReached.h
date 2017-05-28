@@ -1,11 +1,15 @@
 #include "ros/ros.h"
 
-class PointReached{
 
+class PointReached{
 	private:
-		void tellPointReached();
+		bool reached = false;
+		ros::NodeHandle n;
+		ros::Rate loop_rate;
+		ros::Subscriber sub;
 
 	public:
 		PointReached();
 		void listenForPointReached();
+		bool isPointReached();
 };

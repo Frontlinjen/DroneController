@@ -55,13 +55,18 @@ void Pilot::mainLoop(){
 				//Reached destination?
 				if(){
 					currentStatus = AtEntryPoint;
-					
+					commands.moveBy(vexit.at(0), vexit.at(1), vexit.at(2), 0);
 				}
 				break;
 			case GoingToUnknownRing:
 				//Found ring?
-				if(){
-
+				Ring potentialRing = searchForNextRing();
+				if(potentialRing != NULL){
+					currentStatus = GoingtToNextRing;
+					nextTarget = potentialRing();
+					Vec3f ventry = *nextTarget.calculateEntry();
+					Vec3f vexit = *nextTarget.calculateExit();
+					commands.moveBy(ventry.at(0), ventry.at(1), ventry.at(2), 0);
 				}
 				//Reached destination?
 				else if(){
