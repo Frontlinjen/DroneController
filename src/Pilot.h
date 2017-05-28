@@ -9,11 +9,14 @@
 #include "Ring.h"
 #include <cstddef>
 #include <vector>
+#include "PointReached.h"
+
+enum StatusType{GoingToNextRing, GoingToUnknownRing, AtEntryPoint, Idle};
 
 class Pilot{
 
 	private:
-		int nextRingNumber = 0;
+		int nextRingNumber;
 		std::vector<Ring> commandqueue;
 		Ring* nextTarget;
 		Commands commands;
@@ -23,8 +26,7 @@ class Pilot{
 		void lookForRings();
 		Ring* searchForNextRing();
 		Ring* searchForClosestUnknownRing();
-		enum statusType{GoingToNextRing, GoingToUnknownRing, AtEntryPoint, Idle};
-		statusType status = Idle;
+		StatusType currentStatus;
 
 	public:
 		void mainLoop();

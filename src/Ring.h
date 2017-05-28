@@ -1,5 +1,4 @@
 #include "Vector.h"
-#include <matx.hpp>
 
 class Ring{
 	public:

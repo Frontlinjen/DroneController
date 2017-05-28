@@ -16,6 +16,7 @@ Ring* Pilot::searchForNextRing(){
 Ring* Pilot::searchForClosestUnknownRing(){
 	Ring * bestCandidate = NULL;
 	float shortestDistance;
+	/*
 	for(int i = 0; i < commandqueue.size(); i++){
 		if(commandqueue[i].ringNumber != -1){
 			//TODO Mypos does not exist. Find out position of drone (from stateestimation?)
@@ -26,6 +27,7 @@ Ring* Pilot::searchForClosestUnknownRing(){
 			}
 		}
 	}
+	*/
 	return bestCandidate;
 }
 
@@ -41,23 +43,24 @@ void Pilot::mainLoop(){
 	while(ros::ok){ //Main loop
 
 		switch(currentStatus){
-			case GoingtToNextRing:
+			case GoingToNextRing:
 				//Reached destination?
 				if(pointReached.isPointReached()){
+					Vector vexit = (*nextTarget).calculateExit();
 					currentStatus = AtEntryPoint;
-					commands.moveBy(vexit.at(0), vexit.at(1), vexit.at(2), 0);
+					commands.moveBy(vexit.x, vexit.y, vexit.z, 0);
 					pointReached.listenForPointReached();
 				}
 				break;
-			case GoingToUnknownRing:
+			case GoingToUnknownRing:{
 				//Found ring?
-				Ring potentialRing = searchForNextRing();
+				Ring * potentialRing = searchForNextRing();
 				if(potentialRing != NULL){
-					currentStatus = GoingtToNextRing;
-					nextTarget = potentialRing();
-					Vec3f ventry = *nextTarget.calculateEntry();
-					Vec3f vexit = *nextTarget.calculateExit();
-					commands.moveBy(ventry.at(0), ventry.at(1), ventry.at(2), 0);
+					currentStatus = GoingToNextRing;
+					nextTarget = potentialRing;
+					Vector ventry = (*nextTarget).calculateEntry();
+					Vector vexit = (*nextTarget).calculateExit();
+					commands.moveBy(ventry.x, ventry.y, ventry.z, 0);
 					pointReached.listenForPointReached();
 				}
 				//Reached destination?
@@ -65,6 +68,7 @@ void Pilot::mainLoop(){
 					currentStatus = Idle;
 				}
 				break;
+			}
 			case AtEntryPoint:
 				//Passed Ring?
 				if(pointReached.isPointReached()){
@@ -72,7 +76,7 @@ void Pilot::mainLoop(){
 					currentStatus = Idle;
 				}
 				break;
-			case Idle:
+			case Idle:{
 				//Find next objective
 				nextTarget = searchForNextRing();
 				if(nextTarget == NULL){
@@ -82,20 +86,21 @@ void Pilot::mainLoop(){
 					}
 					else{
 						currentStatus = GoingToUnknownRing;
-						Vec3f ventry = *nextTarget.calculateEntry();
-						Vec3f vexit = *nextTarget.calculateExit();
-						commands.moveBy(ventry.at(0), ventry.at(1), ventry.at(2), 0);
+						Vector ventry = (*nextTarget).calculateEntry();
+						Vector vexit = (*nextTarget).calculateExit();
+						commands.moveBy(ventry.x, ventry.y, ventry.z, 0);
 						pointReached.listenForPointReached();
 					}
 				}
 				else{
-					currentStatus = GoingtToNextRing;
-					Vec3f ventry = *nextTarget.calculateEntry();
-					Vec3f vexit = *nextTarget.calculateExit();
-					commands.moveBy(ventry.at(0), ventry.at(1), ventry.at(2), 0);
+					currentStatus = GoingToNextRing;
+					Vector ventry = (*nextTarget).calculateEntry();
+					Vector vexit = (*nextTarget).calculateExit();
+					commands.moveBy(ventry.x, ventry.y, ventry.z, 0);
 					pointReached.listenForPointReached();
 				}
 				break;
+			}
 		}
 	}
 }
