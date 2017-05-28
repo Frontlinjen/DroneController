@@ -17,6 +17,7 @@ class Pilot{
 		std::vector<Ring> commandqueue;
 		Ring* nextTarget;
 		Commands commands;
+		PointReached pointReached;
 		void successfullyReachedRing();
 		void successfullyPassedRing();
 		void lookForRings();
