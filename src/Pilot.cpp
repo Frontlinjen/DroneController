@@ -39,10 +39,6 @@ Ring* Pilot::searchForClosestUnknownRing(){
 	return bestCandidate;
 }
 
-void setEntryPointReached(bool value){
-	entryPointReached = value;
-}
-
 void Pilot::mainLoop(){
 	if(ros::ok()){
 		commands.prepare();
