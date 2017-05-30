@@ -8,6 +8,7 @@
 #include <vector>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "TransformDataListener.h"
 
 RingList::RingList() : loop_rate(10){
 	ros::Subscriber sub = n.subscribe("opencv", 1000, opencvCallback);
@@ -28,17 +29,34 @@ void RingList::updateRingnumber(Ring newr, Ring old){
 	return;
 }
 
-Ring RingList::getRing(int i){
+Ring* RingList::getRing(int i){
 	for(i; i<ringList.length(); i++){
 		if(i == ringList.at(i).ringnumber){
-			return ringList.at(i);
+			return *ringList.at(i);
 		}
 	}
-	return null;
+	return NULL;
 }
 
-Ring RingList::getClosestRing(){
+Ring* RingList::getClosestRing(){
+	TransformDataListener mypos();
+	float shortestDistance;
+	Ring* bestCandidate = NULL;
 
+	for(int i = 0; i < ringList.length(); i++){
+		Ring r(ringList.at(i));
+		if(r.ringnumber == -1){
+			float distanceToRing = pow((r.origo.x - mypos.x), 2) + pow((r.origo.y - mypos.y), 2), pow((r.origo.z - mypos.z), 2);
+			if(bestCandidate == NULL){
+				bestCandidate = r;
+			}
+			if(distanceToRing < shortestDistance){
+				shortestDistance = distanceToRing;
+				bestCandidate = r;
+			}
+		}
+	}
+	return bestCandidate;
 }
 
 void RingList::updateList(Ring r){
