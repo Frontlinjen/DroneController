@@ -30,8 +30,6 @@ int main(int argc, char **argv){
 
 	ros::Subscriber sub = n.subscribe("opencv", 50, opencvCallback);
 
-
-
 	ros:spin();
 
 	return 0;

@@ -200,6 +200,6 @@ include_directories(
 
 include_directories(include ${catkin_INCLUDE_DIRS})
 
-add_executable(Pilot src/Pilot.cpp src/Main.cpp)
+add_executable(Pilot src/Pilot.cpp src/Commands.cpp src/Main.cpp src/PictureRecognition.cpp src/PointReached.cpp src/PossibleRings.cpp src/Ring.cpp)
 target_link_libraries(Pilot ${catkin_LIBRARIES})
 add_dependencies(Pilot beginner_tutorials_generate_messages_cpp)
