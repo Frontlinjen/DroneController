@@ -1,9 +1,5 @@
 #include "Ring.h"
 
-Ring::Ring(){
-
-}
-
 Ring::Ring(Vector origo, Vector direction, int ringNumber){
 	this->origo = origo;
 	this->direction = direction;
