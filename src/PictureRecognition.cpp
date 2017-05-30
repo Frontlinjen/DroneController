@@ -3,6 +3,8 @@
 #include <sstream>
 #include <vector>
 #include "Ring.cpp"
+#include "ros/ros.h"
+#include "std_msgs/String.h"
 
 void opencvCallback(const std_msgs::String::ConstPtr& msg){
 	ROS_INFO("I heard: [%s]", msg->data.c_str());
@@ -14,7 +16,7 @@ void msgHandle(std_msgs::String::ConstPtr& msg){
 	std::stringstream stream(msg);
 	int ringnumber;
 	Vector origo, direction;
-	stream >> origo->x >> origo->y >> origo->z >> direction->x >> direction->y >> direction->z >> ringnumber;
+	stream >> origo->x >> origo->y >> origo->z >> direction->x >> direction->y >> direction->z >> ringnumber >> chance;
 
 	Ring(origo, direction, ringnumber);
 }
