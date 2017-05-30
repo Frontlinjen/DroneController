@@ -1,5 +1,6 @@
 #include "Ring.h"
 #include "RingList.h"
+#include <math.h>
 #include <mutex>
 #include <thread>
 #include <string>
@@ -37,7 +38,7 @@ Ring RingList::getRing(int i){
 }
 
 Ring RingList::getClosestRing(){
-	
+
 }
 
 void RingList::updateList(Ring r){
@@ -46,8 +47,8 @@ void RingList::updateList(Ring r){
 		posx = float abs(r.x - ringList.at(i).x);
 		posy = float abs(r.y - ringList.at(i).y);
 		posz = float abs(r.z - ringList.at(i).z);
-		pos = posx + posy + posz;
-		if(r.ringnumber == ringList.at(i).ringnumber && pos < 1,5){
+		pos = sqrt(pow(posx,2) + pow(posy,2) + pow(posz,2));
+		if(r.ringnumber == ringList.at(i).ringnumber && pos < 1){
 			if(r.chance > ringList.at(i).chance){
 				ringList.updateRing(r, ringList.getRing(id);
 				ringFoundList = true;
@@ -57,7 +58,7 @@ void RingList::updateList(Ring r){
 				break;
 			}
 		}
-		if(r.ringnumber != ringList.at(i).ringnumber && pos < 1,5){
+		if(r.ringnumber != ringList.at(i).ringnumber && pos < 1){
 			if(r.chance > ringList.at(i).chance){
 				ringList.updateRing(r, ringList.at(i));
 				ringFoundList = true;
@@ -97,17 +98,4 @@ void RingList::msgHandle(std_msgs::String::ConstPtr& msg){
 	Ring r(origo, direction, ringnumber, chance);
 
 	updateList(r);
-}
-
-int main(int argc, char **argv){
-
-	ros::init(argc, argv, "listener");
-
-	ros::NodeHandle n;
-
-	ros::Subscriber sub = n.subscribe("opencv", 50, opencvCallback);
-
-	ros:spin();
-
-	return 0;
 }
