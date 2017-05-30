@@ -13,6 +13,7 @@ class RingList{
 		void updateList(Ring r);
 		void opencvCallback(const std_msgs::String::ConstPtr& msg);
 		void msgHandle(std_msgs::String::ConstPtr& msg);
+		bool listening = false;
 
 	public:
 		RingList();
