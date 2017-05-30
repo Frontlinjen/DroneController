@@ -1,9 +1,7 @@
 #include "Ring.h"
-
-Ring::Ring(Vector origo, Vector direction, int ringNumber){
+#include "Vector.h"
 
 Ring::Ring(){
-
 }
 
 Ring::Ring(Vector origo, Vector direction, int ringNumber, float chance){
@@ -13,7 +11,7 @@ Ring::Ring(Vector origo, Vector direction, int ringNumber, float chance){
 	this->chance = chance;
 }
 
-Vector Ring::calculateEntry(Vector origo, Vector direction){
+Vector Ring::calculateEntry(){
 	Vector v;
 	v = origo - direction;
 	return v;
