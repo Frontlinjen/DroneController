@@ -4,10 +4,11 @@ Ring::Ring(){
 
 }
 
-Ring::Ring(Vector origo, Vector direction, int ringNumber){
+Ring::Ring(Vector origo, Vector direction, int ringNumber, float chance){
 	this->origo = origo;
 	this->direction = direction;
 	this->ringNumber = ringNumber;
+	this->chance = chance;
 }
 
 Vector Ring::calculateEntry(Vector origo, Vector direction){
