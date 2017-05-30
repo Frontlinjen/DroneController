@@ -5,13 +5,15 @@
 #include <sstream>
 #include <vector>
 #include "Ring.cpp"
+#include "ros/ros.h"
+#include "std_msgs/String.h"
 
 void msgHandle(std_msgs::String::ConstPtr& msg){
 	std::getline(std::cin, msg);
 	std::stringstream stream(msg);
 	int ringnumber;
 	Vector origo, direction;
-	stream >> origo->x >> origo->y >> origo->z >> direction->x >> direction->y >> direction->z >> ringnumber;
+	stream >> origo->x >> origo->y >> origo->z >> direction->x >> direction->y >> direction->z >> ringnumber >> chance;
 
 	Ring(origo, direction, ringnumber);
 }
