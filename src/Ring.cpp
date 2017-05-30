@@ -1,5 +1,7 @@
 #include "Ring.h"
 
+Ring::Ring(Vector origo, Vector direction, int ringNumber){
+
 Ring::Ring(){
 
 }
