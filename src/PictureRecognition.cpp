@@ -1,13 +1,10 @@
+#include "ros/ros.h"
+#include "std_msgs/String.h"
 #include "Ring.h"
 #include <string>
 #include <sstream>
 #include <vector>
 #include "Ring.cpp"
-
-void opencvCallback(const std_msgs::String::ConstPtr& msg){
-	ROS_INFO("I heard: [%s]", msg->data.c_str());
-	msgHandle(msg);
-}
 
 void msgHandle(std_msgs::String::ConstPtr& msg){
 	std::getline(std::cin, msg);
@@ -17,6 +14,12 @@ void msgHandle(std_msgs::String::ConstPtr& msg){
 	stream >> origo->x >> origo->y >> origo->z >> direction->x >> direction->y >> direction->z >> ringnumber;
 
 	Ring(origo, direction, ringnumber);
+}
+
+
+void opencvCallback(const std_msgs::String::ConstPtr& msg){
+	ROS_INFO("I heard: [%s]", msg->data.c_str());
+	msgHandle(msg);
 }
 
 
