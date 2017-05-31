@@ -1,6 +1,6 @@
 #include "RingList.h"
 
-RingList::RingList() : loop_rate(10){
+RingList::RingList() : loop_rate(10), minAcceptDistance(1){
 	ros::Subscriber sub = n.subscribe("opencv", 1000, &RingList::opencvCallback, this);
 }
 

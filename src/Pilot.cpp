@@ -4,44 +4,14 @@ void Pilot::lookForRings(){
 	commands.goTo(0,0,0,360);
 }
 
-Ring* Pilot::searchForNextRing(){
-	for(int i = 0; i < commandqueue.size(); i++){
-		if(commandqueue[i].ringNumber == nextRingNumber){ //If commandqueue contains next ring. go there.
-			return &commandqueue[i];
-		}
-	}
-	return NULL;
-}
-
-Ring* Pilot::searchForClosestUnknownRing(){
-	Ring * bestCandidate = NULL;
-	float shortestDistance;
-	/*
-	for(int i = 0; i < commandqueue.size(); i++){
-		if(commandqueue[i].ringNumber != -1){
-			//TODO Mypos does not exist. Find out position of drone (from stateestimation?)
-			float distanceToRing = sqrt(pow(mypos.x - commandqueue[i].oX)+pow(mypos.y - commandqueue[i].oY)+pow(mypos.z - commandqueue[i].oZ)); //distance to point
-			if(bestCandidate == NULL || distanceToRing < shortestDistance){
-				bestCandidate = &commandqueue[i];
-				shortestDistance = distanceToRing;
-			}
-		}
-	}
-	*/
-	return bestCandidate;
-}
-
 void Pilot::mainLoop(){
 	if(ros::ok()){
 		commands.prepare();
 		commands.flattrim();
 		commands.autoInit();
-		/*p.goTo(0,1,0,0);
-		p.land();*/
 	}
 
 	while(ros::ok){ //Main loop
-
 		switch(currentStatus){
 			case GoingToNextRing:
 				//Reached destination?
@@ -54,7 +24,7 @@ void Pilot::mainLoop(){
 				break;
 			case GoingToUnknownRing:{
 				//Found ring?
-				Ring * potentialRing = searchForNextRing();
+				Ring * potentialRing = ringList.getRing(nextRingNumber);
 				if(potentialRing != NULL){
 					currentStatus = GoingToNextRing;
 					nextTarget = potentialRing;
@@ -78,9 +48,9 @@ void Pilot::mainLoop(){
 				break;
 			case Idle:{
 				//Find next objective
-				nextTarget = searchForNextRing();
+				nextTarget = ringList.getRing(nextRingNumber);
 				if(nextTarget == NULL){
-					nextTarget = searchForClosestUnknownRing();
+					nextTarget = ringList.getClosestRing();
 					if(nextTarget == NULL){
 						lookForRings();
 					}
