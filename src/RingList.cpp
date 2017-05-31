@@ -1,14 +1,4 @@
-#include "Ring.h"
 #include "RingList.h"
-#include <math.h>
-#include <mutex>
-#include <thread>
-#include <string>
-#include <sstream>
-#include <vector>
-#include "ros/ros.h"
-#include "std_msgs/String.h"
-#include "TransformDataListener.h"
 
 RingList::RingList() : loop_rate(10){
 	ros::Subscriber sub = n.subscribe("opencv", 1000, opencvCallback);
@@ -104,12 +94,12 @@ void RingList::msgHandle(std_msgs::String::ConstPtr& msg){
 	float chance;
 	int ringnumber;
 	Vector origo, direction;
-	stream >> origo->x; 
-	stream >> origo->y; 
-	stream >> origo->z; 
-	stream >> direction->x; 
-	stream >> direction->y; 
-	stream >> direction->z; 
+	stream >> origo.x; 
+	stream >> origo.y; 
+	stream >> origo.z; 
+	stream >> direction.x; 
+	stream >> direction.y; 
+	stream >> direction.z; 
 	stream >> ringnumber; 
 	stream >> chance;
 
