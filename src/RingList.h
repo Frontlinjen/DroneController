@@ -18,15 +18,18 @@ class RingList{
 		ros::NodeHandle n;
 		ros::Rate loop_rate;
 		ros::Subscriber sub;
-		
+		TransformDataListener transformDataListener;
+		const float minAcceptDistance = 1;
+
 		void updateRing(Ring r1, Ring r2);
 		void updateRingnumber(Ring r1, Ring r2);
-		Ring getRing(int i);
+		Ring* getRing(int i);
+		Ring* getClosestRing();
 		void updateList(Ring r);
 		void opencvCallback(const std_msgs::String::ConstPtr& msg);
-		void msgHandle(std_msgs::String::ConstPtr& msg);
-		bool listening = false;
+		void msgHandle(const std_msgs::String::ConstPtr msgPtr);
+
 
 	public:
 		RingList();
-}
+};

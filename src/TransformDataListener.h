@@ -6,9 +6,9 @@
 class TransformDataListener{
 	private:
 		bool isValidVector = false;;
-		bool listening = false;
 	public:
 		float x,y,z;
-		Vector(x,y,z);
-
-}
+		Vector currentPosition;
+		TransformDataListener();
+		Vector getPosition();
+};
