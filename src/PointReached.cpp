@@ -1,8 +1,8 @@
 #include "PointReached.h"
 #include "std_msgs/String.h"
 
-void chatterCallBack(const std_msgs::String::ConstPtr& msg){
-	ROS_INFO("PointReached: I heard: %s", msg->data;
+void PointReached::chatterCallBack(const std_msgs::String::ConstPtr& msg){
+	ROS_INFO("PointReached: I heard: %s", msg->data);
 	if(listening && msg->data.find("target reached initially") != std::string::npos){
 		reached = true;
 		listening = false;
@@ -10,7 +10,7 @@ void chatterCallBack(const std_msgs::String::ConstPtr& msg){
 }
 
 PointReached::PointReached() : loop_rate(10){
-	sub = n.subscribe("/tum_ardrone/com", 1000, chatterCallBack)
+	sub = n.subscribe("/tum_ardrone/com", 1000, &PointReached::chatterCallBack, this);
 }
 
 void PointReached::listenForPointReached(){
@@ -18,6 +18,6 @@ void PointReached::listenForPointReached(){
 	listening = true;
 }
 
-bool isPointReached(){
+bool PointReached::isPointReached(){
 	return reached;
 }

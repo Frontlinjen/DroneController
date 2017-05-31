@@ -1,5 +1,5 @@
 #include "ros/ros.h"
-
+#include "std_msgs/String.h"
 
 class PointReached{
 	private:
@@ -13,4 +13,5 @@ class PointReached{
 		PointReached();
 		void listenForPointReached();
 		bool isPointReached();
+		void chatterCallBack(const std_msgs::String::ConstPtr& msg);
 };
