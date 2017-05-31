@@ -1,48 +1,43 @@
 #include "RingList.h"
 
 RingList::RingList() : loop_rate(10){
-	ros::Subscriber sub = n.subscribe("opencv", 1000, opencvCallback);
+	ros::Subscriber sub = n.subscribe("opencv", 1000, &RingList::opencvCallback, this);
 }
 
 void RingList::updateRing(Ring newr, Ring old){
 	std::lock_guard<std::mutex> lock(ringList_mutex);
-		old.origo = newr.origo;
-		old.direction = newr.direction;
-		old.ringnumber = newr.ringnumber;
-		old.chance = newr.chance;
-	return;
+	old = newr;
 }
 
 void RingList::updateRingnumber(Ring newr, Ring old){
 	std::lock_guard<std::mutex> lock(ringList_mutex);
-		old.ringnumber = newr.ringnumber;
-	return;
+	old.ringNumber = newr.ringNumber;
 }
 
 Ring* RingList::getRing(int i){
-	for(i; i<ringList.length(); i++){
-		if(i == ringList.at(i).ringnumber){
-			return *ringList.at(i);
+	for(i; i<ringList.size(); i++){
+		if(i == ringList.at(i).ringNumber){
+			return &(ringList.at(i));
 		}
 	}
 	return NULL;
 }
 
 Ring* RingList::getClosestRing(){
-	TransformDataListener mypos();
+	Vector mypos = transformDataListener.getPosition();
 	float shortestDistance;
 	Ring* bestCandidate = NULL;
 
-	for(int i = 0; i < ringList.length(); i++){
-		Ring r(ringList.at(i));
-		if(r.ringnumber == -1){
-			float distanceToRing = pow((r.origo.x - mypos.x), 2) + pow((r.origo.y - mypos.y), 2), pow((r.origo.z - mypos.z), 2);
+	for(int i = 0; i < ringList.size(); i++){
+		Ring r = ringList.at(i);
+		if(r.ringNumber == -1){
+			float distanceToRing = pow((r.origo.x - mypos.x), 2) + pow((r.origo.y - mypos.y), 2) + pow((r.origo.z - mypos.z), 2);
 			if(bestCandidate == NULL){
-				bestCandidate = r;
+				*bestCandidate = r;
 			}
 			if(distanceToRing < shortestDistance){
 				shortestDistance = distanceToRing;
-				bestCandidate = r;
+				*bestCandidate = r;
 			}
 		}
 	}
@@ -50,35 +45,35 @@ Ring* RingList::getClosestRing(){
 }
 
 void RingList::updateList(Ring r){
-	for(int i = 0; i < ringList.length(); i++){
+	bool ringFoundInList = false;
+	for(int i = 0; i < ringList.size(); i++){
 		float posx, posy, posz, pos;
-		posx = float abs(r.x - ringList.at(i).x);
-		posy = float abs(r.y - ringList.at(i).y);
-		posz = float abs(r.z - ringList.at(i).z);
+		//Find the distance between the two rings
+		posx = std::abs(r.origo.x - ringList.at(i).origo.x);
+		posy = std::abs(r.origo.y - ringList.at(i).origo.y);
+		posz = std::abs(r.origo.z - ringList.at(i).origo.z);
 		pos = sqrt(pow(posx,2) + pow(posy,2) + pow(posz,2));
-		if(r.ringnumber == ringList.at(i).ringnumber && pos < 1){
-			if(r.chance > ringList.at(i).chance){
-				ringList.updateRing(r, ringList.getRing(id);
-				ringFoundList = true;
-				break;
-			} else {
+		if(pos < minAcceptDistance){
+			if(r.ringNumber == ringList.at(i).ringNumber){
+				if(r.chance > ringList.at(i).chance){
+					updateRing(r, ringList.at(i));
+				}
 				ringFoundInList = true;
 				break;
 			}
-		}
-		if(r.ringnumber != ringList.at(i).ringnumber && pos < 1){
-			if(r.chance > ringList.at(i).chance){
-				ringList.updateRing(r, ringList.at(i));
-				ringFoundList = true;
-				break;
-			} else {
-				ringList.updateRingnumber(r, ringList.at(i));
-				ringFoundInList = true;
-				break;
+			else{
+				if(r.chance > ringList.at(i).chance){
+					updateRing(r, ringList.at(i));
+					ringFoundInList = true;
+					break;
+				} else {
+					updateRingnumber(r, ringList.at(i));
+					ringFoundInList = true;
+					break;
+				}
 			}
 		}
 	}
-
 	if(ringFoundInList == false){
 		ringList.push_back(r);
 	}
@@ -89,7 +84,7 @@ void RingList::opencvCallback(const std_msgs::String::ConstPtr& msg){
 	msgHandle(msg);
 }
 
-void RingList::msgHandle(std_msgs::String::ConstPtr& msg){
+/*void RingList::msgHandle(std_msgs::String::ConstPtr msg){
 	std::stringstream stream(*msg);
 	float chance;
 	int ringnumber;
@@ -100,10 +95,10 @@ void RingList::msgHandle(std_msgs::String::ConstPtr& msg){
 	stream >> direction.x; 
 	stream >> direction.y; 
 	stream >> direction.z; 
-	stream >> ringnumber; 
+	stream >> ringNumber; 
 	stream >> chance;
 
-	Ring r(origo, direction, ringnumber, chance);
+	Ring r(origo, direction, ringNumber, chance);
 
 	updateList(r);
-}
+}*/
