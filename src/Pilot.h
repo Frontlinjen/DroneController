@@ -10,6 +10,7 @@
 #include <cstddef>
 #include <vector>
 #include "PointReached.h"
+#include "RingList.h"
 
 enum StatusType{GoingToNextRing, GoingToUnknownRing, AtEntryPoint, Idle};
 
@@ -21,15 +22,14 @@ class Pilot{
 		Ring* nextTarget;
 		Commands commands;
 		PointReached pointReached;
+		RingList ringList;
+
 		void successfullyReachedRing();
 		void successfullyPassedRing();
 		void lookForRings();
-		Ring* searchForNextRing();
-		Ring* searchForClosestUnknownRing();
 		StatusType currentStatus;
 
 	public:
 		void mainLoop();
-		//Pilot();
 		void setEntryPointReached();
 };
