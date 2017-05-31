@@ -1,15 +1,19 @@
 #include "TransformDataListener.h"
 #include "std_msgs/String.h"
 
-tf::TransformListener listener;
 
-void tfCallBack(const std_msgs::String::ConstPtr& msg){
-	ROS_INFO("Current position is: %s", msg->data);
+void TransformDataListener::tfCallBack(tum_ardrone::filter_state msg){
+	//ROS_INFO("Current position is: %s", msg->data);
 
+	setPosition(Vector(msg.x, msg.y, msg.z));
 }
 
 Vector TransformDataListener::getPosition(){
-	return currentPosition;
+	return position;
+}
+
+void TransformDataListener::setPosition(Vector v){
+	position = v;
 }
 
 TransformDataListener::TransformDataListener(){

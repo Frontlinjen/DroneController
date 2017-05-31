@@ -30,6 +30,6 @@ class Pilot{
 
 	public:
 		void mainLoop();
-		Pilot();
+		//Pilot();
 		void setEntryPointReached();
 };

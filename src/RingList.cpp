@@ -84,8 +84,8 @@ void RingList::opencvCallback(const std_msgs::String::ConstPtr& msg){
 	msgHandle(msg);
 }
 
-/*void RingList::msgHandle(std_msgs::String::ConstPtr msg){
-	std::stringstream stream(*msg);
+void RingList::msgHandle(std_msgs::String::ConstPtr msg){
+	/*std::stringstream stream(*msg);
 	float chance;
 	int ringnumber;
 	Vector origo, direction;
@@ -100,5 +100,5 @@ void RingList::opencvCallback(const std_msgs::String::ConstPtr& msg){
 
 	Ring r(origo, direction, ringNumber, chance);
 
-	updateList(r);
-}*/
+	updateList(r);*/
+}
