@@ -27,7 +27,7 @@ class Pilot{
 		void successfullyReachedRing();
 		void successfullyPassedRing();
 		void lookForRings();
-		StatusType currentStatus;
+		StatusType currentStatus = Idle;
 
 	public:
 		void mainLoop();

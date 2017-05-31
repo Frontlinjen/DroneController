@@ -2,6 +2,14 @@
 
 RingList::RingList() : loop_rate(10), minAcceptDistance(1){
 	ros::Subscriber sub = n.subscribe("opencv", 1000, &RingList::opencvCallback, this);
+
+	//Test ring
+	Vector origo(0,1,1);
+	Vector direction(0,0,0);
+	int ringNumber = 0;
+	float chance = 100;
+	Ring r(origo, direction, ringNumber, chance);
+	updateList(r);
 }
 
 void RingList::updateRing(Ring newr, Ring old){

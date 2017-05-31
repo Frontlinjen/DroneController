@@ -10,12 +10,12 @@ void Pilot::mainLoop(){
 		commands.flattrim();
 		commands.autoInit();
 	}
-
-	while(ros::ok){ //Main loop
+	while(ros::ok()){ //Main loop
 		switch(currentStatus){
 			case GoingToNextRing:
 				//Reached destination?
 				if(pointReached.isPointReached()){
+					ROS_INFO("Reached Entry Point");
 					Vector vexit = (*nextTarget).calculateExit();
 					currentStatus = AtEntryPoint;
 					commands.moveBy(vexit.x, vexit.y, vexit.z, 0);
@@ -26,6 +26,7 @@ void Pilot::mainLoop(){
 				//Found ring?
 				Ring * potentialRing = ringList.getRing(nextRingNumber);
 				if(potentialRing != NULL){
+					ROS_INFO("Going to next ring");
 					currentStatus = GoingToNextRing;
 					nextTarget = potentialRing;
 					Vector ventry = (*nextTarget).calculateEntry();
@@ -44,6 +45,7 @@ void Pilot::mainLoop(){
 				if(pointReached.isPointReached()){
 					nextRingNumber++;
 					currentStatus = Idle;
+					ROS_INFO("Reached Entry Point");
 				}
 				break;
 			case Idle:{
@@ -52,9 +54,11 @@ void Pilot::mainLoop(){
 				if(nextTarget == NULL){
 					nextTarget = ringList.getClosestRing();
 					if(nextTarget == NULL){
+						ROS_INFO("No ring found, spinning...");
 						lookForRings();
 					}
 					else{
+						ROS_INFO("Going to unknown ring");
 						currentStatus = GoingToUnknownRing;
 						Vector ventry = (*nextTarget).calculateEntry();
 						Vector vexit = (*nextTarget).calculateExit();
@@ -63,6 +67,7 @@ void Pilot::mainLoop(){
 					}
 				}
 				else{
+					ROS_INFO("Going to next ring");
 					currentStatus = GoingToNextRing;
 					Vector ventry = (*nextTarget).calculateEntry();
 					Vector vexit = (*nextTarget).calculateExit();
