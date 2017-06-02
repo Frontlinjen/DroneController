@@ -38,7 +38,7 @@ void Pilot::stateAtEntry()
 	if(pointReached.isPointReached()){
 		nextRingNumber++;
 		currentStatus = Idle;
-		ROS_INFO("Reached Entry Point");
+		ROS_INFO("Reached exit point");
 	}
 }
 
@@ -46,7 +46,7 @@ void Pilot::stateGoingToNextRing()
 {
 	//Reached destination?
 	if(pointReached.isPointReached()){
-		ROS_INFO("Reached Entry Point");
+		ROS_INFO("Reached entry point");
 		Vector vexit = (*nextTarget).calculateExit();
 		currentStatus = AtEntryPoint;
 		commands.goTo(vexit.x, vexit.y, vexit.z, 0);

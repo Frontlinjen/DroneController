@@ -39,7 +39,7 @@
 
 	void Commands::setReference(float x, float y, float z, float yaw){
 		std::stringstream com;
-		com << "c setReference " << x << " " << y << " " << z << "" << yaw;
+		com << "c setReference " << x << " " << y << " " << z << " " << yaw;
 		comPub.publish(command(com.str()));
 		ROS_INFO("Sent set reference point");
 		ros::spinOnce();
