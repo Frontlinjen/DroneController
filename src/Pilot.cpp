@@ -77,6 +77,7 @@ void Pilot::mainLoop(){
 	if(ros::ok()){
 		commands.prepare();
 		commands.flattrim();
+		commands.setReference(0, 0, 0, 0);
 		commands.autoInit();
 	}
 	while(ros::ok()){ //Main loop
