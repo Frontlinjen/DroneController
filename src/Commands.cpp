@@ -37,6 +37,16 @@
 		loop_rate.sleep();
 	}
 
+	void Commands::setReference(float x, float y, float z, float yaw){
+		std::stringstream com;
+		com << "c setReference " << x << " " << y << " " << z << "" << yaw;
+		comPub.publish(command(com.str()));
+		ROS_INFO("Sent set reference point");
+		ros::spinOnce();
+		loop_rate.sleep();
+
+	}
+
 	void Commands::flattrim(){
 		std_srvs::Empty flat;
 		flattrimClient.call(flat);
