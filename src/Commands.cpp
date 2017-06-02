@@ -82,3 +82,7 @@
 		//loop_rate.sleep();
 		ROS_INFO("Done.");
 	}
+
+	void Commands::lookForRings(){
+		goTo(0,0,0,360);
+	}

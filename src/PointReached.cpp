@@ -2,8 +2,8 @@
 #include "std_msgs/String.h"
 
 void PointReached::chatterCallBack(const std_msgs::String::ConstPtr& msg){
-	ROS_INFO("PointReached: I heard: %s", msg->data);
 	if(listening && msg->data.find("target reached initially") != std::string::npos){
+		ROS_INFO("PointReached");
 		reached = true;
 		listening = false;
 	}
@@ -20,4 +20,8 @@ void PointReached::listenForPointReached(){
 
 bool PointReached::isPointReached(){
 	return reached;
+}
+
+bool PointReached::isListening(){
+	return listening;
 }

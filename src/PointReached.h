@@ -13,5 +13,6 @@ class PointReached{
 		PointReached();
 		void listenForPointReached();
 		bool isPointReached();
+		bool isListening();
 		void chatterCallBack(const std_msgs::String::ConstPtr& msg);
 };

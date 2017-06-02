@@ -18,18 +18,18 @@ class Pilot{
 
 	private:
 		int nextRingNumber;
-		std::vector<Ring> commandqueue;
 		Ring* nextTarget;
 		Commands commands;
 		PointReached pointReached;
 		RingList ringList;
-
-		void successfullyReachedRing();
-		void successfullyPassedRing();
-		void lookForRings();
+		bool busy = false;
 		StatusType currentStatus = Idle;
+
+		void stateIdle();
+		void stateAtEntry();
+		void stateGoingToNextRing();
+		void stateGoingToUnknownRing();
 
 	public:
 		void mainLoop();
-		void setEntryPointReached();
 };
