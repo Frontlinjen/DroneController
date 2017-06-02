@@ -20,6 +20,7 @@
 		ROS_INFO("Sent autoInit");
 		ros::spinOnce();
 		loop_rate.sleep();
+		ros::Duration(2).sleep();
 	}
 
 	void Commands::land(){

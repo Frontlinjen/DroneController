@@ -6,7 +6,7 @@ RingList::RingList() : loop_rate(10), minAcceptDistance(1){
 	//Test ring
 	Vector origo(0,1,1);
 	Vector direction(0,0,0);
-	int ringNumber = 0;
+	int ringNumber = 1;
 	float chance = 100;
 	Ring r(origo, direction, ringNumber, chance);
 	updateList(r);
@@ -22,9 +22,9 @@ void RingList::updateRingnumber(Ring newr, Ring old){
 	old.ringNumber = newr.ringNumber;
 }
 
-Ring* RingList::getRing(int i){
-	for(i; i<ringList.size(); i++){
-		if(i == ringList.at(i).ringNumber){
+Ring* RingList::getRing(int x){
+	for(int i = 0; i<ringList.size(); i++){
+		if(x == ringList.at(i).ringNumber){
 			return &(ringList.at(i));
 		}
 	}

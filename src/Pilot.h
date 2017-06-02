@@ -17,7 +17,7 @@ enum StatusType{GoingToNextRing, GoingToUnknownRing, AtEntryPoint, Idle};
 class Pilot{
 
 	private:
-		int nextRingNumber;
+		int nextRingNumber = 1;
 		Ring* nextTarget;
 		Commands commands;
 		PointReached pointReached;

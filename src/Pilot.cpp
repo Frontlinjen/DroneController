@@ -6,10 +6,12 @@ void Pilot::stateIdle()
 	nextTarget = ringList.getRing(nextRingNumber);
 	if(nextTarget == NULL){
 		nextTarget = ringList.getClosestRing();
-		if(nextTarget == NULL && !pointReached.isListening()){
-			ROS_INFO("No ring found, spinning...");
-			commands.lookForRings();
-			pointReached.listenForPointReached();
+		if(nextTarget == NULL){
+			if(!pointReached.isListening()){
+				ROS_INFO("No ring found, spinning...");
+				commands.lookForRings();
+				pointReached.listenForPointReached();
+			}
 		}
 		else{
 			ROS_INFO("Going to unknown ring");
@@ -76,7 +78,6 @@ void Pilot::mainLoop(){
 		commands.prepare();
 		commands.flattrim();
 		commands.autoInit();
-		stateIdle();
 	}
 	while(ros::ok()){ //Main loop
 		switch(currentStatus){
@@ -95,6 +96,4 @@ void Pilot::mainLoop(){
 			}
 		}
 	}
-
-
 }
