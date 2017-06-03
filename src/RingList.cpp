@@ -110,3 +110,7 @@ void RingList::msgHandle(std_msgs::String::ConstPtr msg){
 
 	updateList(r);*/
 }
+
+int ringCount(){
+	return ringList.size();
+}

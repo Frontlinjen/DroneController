@@ -32,4 +32,5 @@ class RingList{
 		RingList();
 		Ring* getRing(int i);
 		Ring* getClosestRing();
+		int ringCount();
 };
