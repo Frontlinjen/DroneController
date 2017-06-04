@@ -1,7 +1,7 @@
 #include "Commands.h"
 	Commands::Commands() : loop_rate(10){
-		comPub = n.advertise<std_msgs::String>(n.resolveName("tum_ardrone/com"), 50);
-		flattrimClient = n.serviceClient<std_srvs::Empty>(n.resolveName("ardrone/flattrim"),1);	
+		comPub = n.advertise<std_msgs::String>(n.resolveName("tum_ardrone/com"), 1000);
+		flattrimClient = n.serviceClient<std_srvs::Empty>(n.resolveName("ardrone/flattrim"),1000);	
 		ros::Duration(2).sleep();
 	}
 
