@@ -40,12 +40,12 @@ void Pilot::stateAtEntry()
 		currentStatus = Idle;
 		ROS_INFO("Reached exit point");
 		//Is the track completed?
-		/*if(ringList.ringCount() >= 6 && (nextRingNumber - 1) == ringList.ringCount()){
+		if(ringList.ringCount() >= 6 && (nextRingNumber - 1) == ringList.ringCount()){
 			//Should we do a lookForRings just to be sure?
 			ROS_INFO("Track completed, landing...");
-			commands.goto(0,0,0,0);
+			commands.goTo(0,0,0,0);
 			commands.land();
-		}*/
+		}
 	}
 }
 
