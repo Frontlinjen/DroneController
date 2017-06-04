@@ -9,7 +9,7 @@ void PointReached::chatterCallBack(const std_msgs::String::ConstPtr& msg){
 	}
 }
 
-PointReached::PointReached() : loop_rate(10){
+PointReached::PointReached() : loop_rate(200){
 	sub = n.subscribe("/tum_ardrone/com", 1000, &PointReached::chatterCallBack, this);
 }
 
