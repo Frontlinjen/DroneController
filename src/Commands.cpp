@@ -37,10 +37,8 @@
 		loop_rate.sleep();
 	}
 
-	void Commands::setReference(float x, float y, float z, float yaw){
-		std::stringstream com;
-		com << "c setReference " << x << " " << y << " " << z << " " << yaw;
-		comPub.publish(command(com.str()));
+	void Commands::setReference(){
+		comPub.publish(command("c setReference $POSE$"));
 		ROS_INFO("Sent set reference point");
 		ros::spinOnce();
 		loop_rate.sleep();
@@ -85,13 +83,6 @@
 		comPub.publish(command("c start"));
 		ros::spinOnce();
 		loop_rate.sleep();
-		//TODO Calibrate
-		//ros::spinOnce();
-		//loop_rate.sleep();
-		//TODO Flattrim
-		//ros::spinOnce();
-		//loop_rate.sleep();
-		ROS_INFO("Done.");
 	}
 
 	void Commands::lookForRings(){

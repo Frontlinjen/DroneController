@@ -3,7 +3,7 @@
 
 void PointReached::chatterCallBack(const std_msgs::String::ConstPtr& msg){
 	if(listening && msg->data.find("target reached initially") != std::string::npos){
-		ROS_INFO("PointReached");
+		ROS_INFO("Point reached");
 		reached = true;
 		listening = false;
 	}
@@ -14,6 +14,7 @@ PointReached::PointReached() : loop_rate(200){
 }
 
 void PointReached::listenForPointReached(){
+	ROS_INFO("Listening for point reached");
 	reached = false;
 	listening = true;
 }

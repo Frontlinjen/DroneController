@@ -4,7 +4,7 @@ RingList::RingList() : loop_rate(10), minAcceptDistance(0.5){
 	ros::Subscriber sub = n.subscribe("opencv", 1000, &RingList::opencvCallback, this);
 
 	//Test ring
-	Vector origo(0,2,2);
+	Vector origo(0,2,1);
 	Vector direction(0,1,0);
 	int ringNumber = 1;
 	float chance = 100;
