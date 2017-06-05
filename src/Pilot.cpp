@@ -42,7 +42,7 @@ void Pilot::stateAtEntry()
 		//temp
 		commands.land();
 		//Is the track completed?
-		if(ringList.ringCount() >= 1 && (nextRingNumber - 1) == ringList.ringCount()){
+		if(ringList.ringCount() >= 6 && (nextRingNumber - 1) == ringList.ringCount()){
 			//Should we do a lookForRings just to be sure?
 			ROS_INFO("Track completed, landing...");
 			commands.goTo(0,0,0,0);
@@ -86,7 +86,10 @@ void Pilot::mainLoop(){
 	if(ros::ok()){
 		commands.prepare();
 		commands.flattrim();
+<<<<<<< HEAD
 		commands.setReference();
+=======
+>>>>>>> 7994af70df8878b4a5be9df1a04b827113e667e7
 		commands.autoInit();
 	}
 	while(ros::ok()){ //Main loop
