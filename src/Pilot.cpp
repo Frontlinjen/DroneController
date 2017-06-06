@@ -82,6 +82,37 @@ void Pilot::stateGoingToUnknownRing()
 	}
 }
 
+void Pilot::collisionHandling(*Ring ring){
+	float a, b, c, aLine, bLine; //a,b,c del af andengradsligningen til at se kollision. aLine og bLine er vectorens koordinater
+	TransformDataListener tdl;
+	bool freePath = true;
+	Vector pos = tdl.getPosition();
+	for(int i = 0; i < ringList.ringCount(); i++){
+		if(ringList.getRing(i).ringNumber == nextRingNumber){
+			continue;
+		}
+		else{
+			Ring r = ringList.getRing(i);
+			aLine = (r.y - pos.y) / (r.x - pos.x);
+			bLine = r.y - (aline * r.x);
+			a = pow(aline, 2) + 1;
+			b = (-2 * r.x) + (2 * aline * bline) + (-2 * aline * r.y);
+			c = pow(-r.x, 2) + pow(bline, 2) + pow(r.y, 2) + (-2 * bline * r.y) - pow(0.75, 2);
+			d = pow(b, 2) - 4 * a * c;
+			if(d < 0){
+				continue;
+			}
+			else{
+				freePath = false;
+				Vector intermediatePoint = r.origo; //Gang origo med vinkelret vektor til den normale rute ganget med sikkerhedsafstanden
+			}
+		}
+	}
+	if(freePath){
+		commands.goTo(ring->entry.x, ring->entry.y, ring->entry.z, ring->angleDegrees);
+	}
+}
+
 void Pilot::mainLoop(){
 	if(ros::ok()){
 		commands.prepare();
