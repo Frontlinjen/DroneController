@@ -23,5 +23,6 @@ Vector Ring::calculateExit(){
 }
 
 float Ring::angleDegrees(){
-	return atan2(direction.x, direction.y) * 180 / 3.14159265;
+	angleD = atan2(direction.x, direction.y) * 180 / 3.14159265;
+	return angleD;
 }

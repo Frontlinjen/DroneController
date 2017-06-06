@@ -32,8 +32,6 @@ class Pilot{
 		void stateGoingToNextRing();
 		void stateGoingToUnknownRing();
 
-		void collisionHandling();
-
 	public:
 		void mainLoop();
 };
