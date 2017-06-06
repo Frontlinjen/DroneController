@@ -81,6 +81,11 @@
 	void Commands::prepare(){
 		ROS_INFO("Preparing...");
 		comPub.publish(command("c start"));
+		comPub.publish(command("c setReference $POSE$"));
+		comPub.publish(command("c setInitialReachDist 0.2"));
+		comPub.publish(command("c setStayWithinDist 0.3"));
+		comPub.publish(command("c setStayTime 3"));
+		comPub.publish(command("c lockScaleFP"));
 		ros::spinOnce();
 		loop_rate.sleep();
 	}
@@ -88,3 +93,10 @@
 	void Commands::lookForRings(){
 		goTo(0,0,0,360);
 	}
+	/*
+setReference $POSE$
+setInitialReachDist 0.2
+setStayWithinDist 0.3
+setStayTime 3
+lockScaleFP
+	*/
