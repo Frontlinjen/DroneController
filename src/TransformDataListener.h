@@ -7,11 +7,13 @@
 
 class TransformDataListener{
 		Vector position;
+		Vector direction;
 		ros::Subscriber sub;
 		ros::NodeHandle n;
 //		ros::Rate loop_rate;
 
 	public:
+		float yaw;
 		float getYaw();
 		Vector getPosition();
 		Vector getDirection();
