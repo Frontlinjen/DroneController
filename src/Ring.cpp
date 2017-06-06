@@ -1,6 +1,5 @@
 #include "Ring.h"
 #include "Vector.h"
-
 Ring::Ring(){
 }
 
@@ -21,4 +20,8 @@ Vector Ring::calculateExit(){
 	Vector v;
 	v = origo + direction;
 	return v;
+}
+
+float Ring::angleDegrees(){
+	return atan2(direction.x, direction.y) * 180 / 3.14159265;
 }

@@ -4,6 +4,7 @@
 #include "std_srvs/Empty.h"
 #include <sstream>
 #include <string>
+#include <iostream>
 
 class Commands{
 

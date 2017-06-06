@@ -1,4 +1,5 @@
 #include "Vector.h"
+#include <cmath>
 #pragma once
 
 class Ring{
@@ -10,4 +11,5 @@ class Ring{
 		Ring(Vector origo, Vector direction, int ringNumber, float chance);
 		Vector calculateEntry();
 		Vector calculateExit();
+		float angleDegrees();
 };

@@ -64,7 +64,7 @@
 		std::stringstream com;
 		com << "c goto " << x << " " << y << " " << z << " " << yaw;
 		comPub.publish(command(com.str()));
-		ROS_INFO("Sent goto");
+		std::cout << com.str() << "\n";
 		ros::spinOnce();
 		loop_rate.sleep();
 	}
@@ -93,10 +93,3 @@
 	void Commands::lookForRings(){
 		goTo(0,0,0,360);
 	}
-	/*
-setReference $POSE$
-setInitialReachDist 0.2
-setStayWithinDist 0.3
-setStayTime 3
-lockScaleFP
-	*/
