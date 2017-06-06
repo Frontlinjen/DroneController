@@ -9,8 +9,10 @@
 #include "Ring.h"
 #include <cstddef>
 #include <vector>
+#include "Vector.h"
 #include "PointReached.h"
 #include "RingList.h"
+#include "TransformDataListener.h"
 
 enum StatusType{GoingToNextRing, GoingToUnknownRing, AtEntryPoint, Idle};
 
@@ -29,6 +31,8 @@ class Pilot{
 		void stateAtEntry();
 		void stateGoingToNextRing();
 		void stateGoingToUnknownRing();
+
+		void collisionHandling();
 
 	public:
 		void mainLoop();
