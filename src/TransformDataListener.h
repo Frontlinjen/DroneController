@@ -12,10 +12,12 @@ class TransformDataListener{
 //		ros::Rate loop_rate;
 
 	public:
+		float getYaw();
 		Vector getPosition();
 		Vector getDirection();
 		void tfCallBack(tum_ardrone::filter_state msg);
 		void setPosition(Vector v);
 		void setDirection(Vector v);
+		void setYaw(float yaw);
 		TransformDataListener();
 };

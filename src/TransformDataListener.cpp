@@ -7,6 +7,7 @@ void TransformDataListener::tfCallBack(tum_ardrone::filter_state msg){
 
 	setPosition(Vector(msg.x, msg.y, msg.z));
 	setDirection(Vector(msg.dx, msg.dy, msg.dz));
+	setYaw(msg.yaw);
 }
 
 Vector TransformDataListener::getPosition(){
@@ -23,6 +24,14 @@ Vector TransformDataListener::getDirection(){
 
 void TransformDataListener::setDirection(Vector v){
 	direction = v;
+}
+
+float TransformDataListener::getYaw(){
+	return yaw;
+}
+
+void TransformDataListener::setYaw(float y){
+	yaw = y;
 }
 
 TransformDataListener::TransformDataListener(){
