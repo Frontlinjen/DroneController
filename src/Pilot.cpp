@@ -18,7 +18,7 @@ void Pilot::stateIdle()
 			currentStatus = GoingToUnknownRing;
 			Vector ventry = (*nextTarget).calculateEntry();
 			Vector vexit = (*nextTarget).calculateExit();
-			commands.goTo(ventry.x, ventry.y, ventry.z, 0);
+			commands.goTo(ventry.x, ventry.y, ventry.z, nextTarget->angleDegrees());
 			pointReached.listenForPointReached();
 		}
 	}
@@ -27,7 +27,7 @@ void Pilot::stateIdle()
 		currentStatus = GoingToNextRing;
 		Vector ventry = (*nextTarget).calculateEntry();
 		Vector vexit = (*nextTarget).calculateExit();
-		commands.goTo(ventry.x, ventry.y, ventry.z, 0);
+		commands.goTo(ventry.x, ventry.y, ventry.z, nextTarget->angleDegrees());
 		pointReached.listenForPointReached();
 	}
 }
@@ -58,7 +58,7 @@ void Pilot::stateGoingToNextRing()
 		ROS_INFO("Reached entry point");
 		Vector vexit = (*nextTarget).calculateExit();
 		currentStatus = AtEntryPoint;
-		commands.goTo(vexit.x, vexit.y, vexit.z, 0);
+		commands.goTo(vexit.x, vexit.y, vexit.z, nextTarget->angleDegrees());
 		pointReached.listenForPointReached();
 	}	
 }
@@ -73,7 +73,7 @@ void Pilot::stateGoingToUnknownRing()
 		nextTarget = potentialRing;
 		Vector ventry = (*nextTarget).calculateEntry();
 		Vector vexit = (*nextTarget).calculateExit();
-		commands.goTo(ventry.x, ventry.y, ventry.z, 0);
+		commands.goTo(ventry.x, ventry.y, ventry.z, nextTarget->angleDegrees());
 		pointReached.listenForPointReached();
 	}
 	//Reached destination?
