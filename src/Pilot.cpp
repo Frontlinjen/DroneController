@@ -56,11 +56,11 @@ void Pilot::stateGoingToNextRing()
 	//Reached destination?
 	if(pointReached.isPointReached()){
 		ROS_INFO("Reached entry point");
-		Vector vexit = (*nextTarget).calculateExit();
+		Vector vexit = (*nextTarget).calculateExit(); //Calculate again in case of updates
 		currentStatus = AtEntryPoint;
 		commands.goTo(vexit.x, vexit.y, vexit.z, nextTarget->angleDegrees());
 		pointReached.listenForPointReached();
-	}	
+	}
 }
 
 void Pilot::stateGoingToUnknownRing()
@@ -73,6 +73,7 @@ void Pilot::stateGoingToUnknownRing()
 		nextTarget = potentialRing;
 		Vector ventry = (*nextTarget).calculateEntry();
 		Vector vexit = (*nextTarget).calculateExit();
+		commands.clearCommands();
 		commands.goTo(ventry.x, ventry.y, ventry.z, nextTarget->angleDegrees());
 		pointReached.listenForPointReached();
 	}

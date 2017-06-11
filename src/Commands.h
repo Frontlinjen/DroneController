@@ -26,6 +26,7 @@ class Commands{
 		void goTo(float x, float y, float z, float yaw);
 		void moveBy(float x, float y, float z, float yaw);
 		void setReference();
+		void clearCommands();
 		void prepare();
 		void lookForRings();
 };

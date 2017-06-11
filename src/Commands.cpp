@@ -78,6 +78,13 @@
 		loop_rate.sleep();
 	}
 
+	void Commands::clearCommands(){
+		comPub.publish(command("c clearCommands"));
+		ROS_INFO("Sent clearCommands");
+		ros::spinOnce();
+		loop_rate.sleep();
+	}
+
 	void Commands::prepare(){
 		ROS_INFO("Preparing...");
 		comPub.publish(command("c start"));
