@@ -20,7 +20,6 @@
 		ROS_INFO("Sent autoInit");
 		ros::spinOnce();
 		loop_rate.sleep();
-		ros::Duration(2).sleep();
 	}
 
 	void Commands::land(){
@@ -92,7 +91,6 @@
 		comPub.publish(command("c setInitialReachDist 0.2"));
 		comPub.publish(command("c setStayWithinDist 0.3"));
 		comPub.publish(command("c setStayTime 3"));
-		comPub.publish(command("c lockScaleFP"));
 		ros::spinOnce();
 		loop_rate.sleep();
 	}
