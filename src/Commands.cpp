@@ -61,7 +61,9 @@
 
 	void Commands::goTo(float x, float y, float z, float yaw){
 		std::stringstream com;
-		com << "c goto " << x << " " << y << " " << z << " " << yaw;
+		Vector mypos = transformDataListener.getPosition();
+		com << "c goto " << mypos.x << " " << mypos.y << " " << z << " " << yaw;
+		com << "c goto " << x << " " << y << " " << mypos.z << " " << yaw;
 		comPub.publish(command(com.str()));
 		std::cout << com.str() << "\n";
 		ros::spinOnce();

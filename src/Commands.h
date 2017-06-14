@@ -2,6 +2,7 @@
 #include "std_msgs/String.h"
 #include "std_msgs/Empty.h"
 #include "std_srvs/Empty.h"
+#include "TransformDataListener.h"
 #include <sstream>
 #include <string>
 #include <iostream>
@@ -14,6 +15,7 @@ class Commands{
 		ros::NodeHandle n;
 		ros::Rate loop_rate;
 		std_msgs::String command(std::string command);
+		TransformDataListener transformDataListener;
 
 	public:
 		Commands();
