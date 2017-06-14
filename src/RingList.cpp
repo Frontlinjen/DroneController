@@ -87,12 +87,12 @@ void RingList::updateList(Ring r){
 	}
 }
 
-void RingList::opencvCallback(const std_msgs::String::ConstPtr& msg){
-	ROS_INFO("I heard: [%s]", msg->data.c_str());
+void RingList::opencvCallback(const ring_detector::RingData msg){
+	//ROS_INFO("I heard: [%s]", msg->data.c_str());
 	msgHandle(msg);
 }
 
-void RingList::msgHandle(std_msgs::String::ConstPtr msg){
+void RingList::msgHandle(ring_detector::RingData msg){
 	/*std::stringstream stream(*msg);
 	float chance;
 	int ringnumber;
@@ -104,11 +104,17 @@ void RingList::msgHandle(std_msgs::String::ConstPtr msg){
 	stream >> direction.y; 
 	stream >> direction.z; 
 	stream >> ringNumber; 
-	stream >> chance;
+	stream >> chance;*/
+	float chance;
+	int ringNumber;
+	Vector origo, direction;
+	chance = msg.possibility;
+	ringNumber = msg.ring_number;
+	orig = 
 
 	Ring r(origo, direction, ringNumber, chance);
 
-	updateList(r);*/
+	updateList(r);
 }
 
 int RingList::ringCount(){
