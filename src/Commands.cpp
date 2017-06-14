@@ -61,7 +61,9 @@
 
 	void Commands::goTo(float x, float y, float z, float yaw){
 		std::stringstream com;
-		com << "c goto " << x << " " << y << " " << z << " " << yaw;
+		Vector mypos = transformDataListener.getPosition();
+		com << "c goto " << mypos.x << " " << mypos.y << " " << z << " " << yaw;
+		com << "c goto " << x << " " << y << " " << mypos.z << " " << yaw;
 		comPub.publish(command(com.str()));
 		std::cout << com.str() << "\n";
 		ros::spinOnce();
@@ -73,6 +75,13 @@
 		com << "c moveBy " << x << " " << y << " " << z << " " << yaw;
 		comPub.publish(command(com.str()));
 		ROS_INFO("Sent moveBy");
+		ros::spinOnce();
+		loop_rate.sleep();
+	}
+
+	void Commands::clearCommands(){
+		comPub.publish(command("c clearCommands"));
+		ROS_INFO("Sent clearCommands");
 		ros::spinOnce();
 		loop_rate.sleep();
 	}
