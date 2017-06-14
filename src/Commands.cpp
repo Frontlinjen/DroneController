@@ -1,6 +1,6 @@
 #include "Commands.h"
 	Commands::Commands() : loop_rate(10){
-		comPub = n.advertise<std_msgs::String>(n.resolveName("tum_ardrone/com"), 1000);
+		comPub = n.advertise<std_msgs::String>(n.resolveName("uga_tum_ardrone/com"), 1000);
 		flattrimClient = n.serviceClient<std_srvs::Empty>(n.resolveName("ardrone/flattrim"),1000);	
 		ros::Duration(2).sleep();
 	}
@@ -84,10 +84,14 @@
 		comPub.publish(command("c setInitialReachDist 0.2"));
 		comPub.publish(command("c setStayWithinDist 0.3"));
 		comPub.publish(command("c setStayTime 3"));
+		comPub.publish(command("c lockScaleFP"));
 		ros::spinOnce();
 		loop_rate.sleep();
 	}
 
 	void Commands::lookForRings(){
-		goTo(0,0,0,360);
+		goTo(0,0,0,90);
+		goTo(0,0,0,180);
+		goTo(0,0,0,270);
+		goTo(0,0,0,0);
 	}
