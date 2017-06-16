@@ -93,24 +93,15 @@ void RingList::opencvCallback(const ring_detector::RingData msg){
 }
 
 void RingList::msgHandle(ring_detector::RingData msg){
-	/*std::stringstream stream(*msg);
-	float chance;
-	int ringnumber;
-	Vector origo, direction;
-	stream >> origo.x; 
-	stream >> origo.y; 
-	stream >> origo.z; 
-	stream >> direction.x; 
-	stream >> direction.y; 
-	stream >> direction.z; 
-	stream >> ringNumber; 
-	stream >> chance;*/
 	float chance;
 	int ringNumber;
 	Vector origo, direction;
+	
 	chance = msg.possibility;
 	ringNumber = msg.ring_number;
-	orig = 
+	Vector a = transformDataListener.getPosition();
+	origo = Vector(msg.delta_x, msg.delta_y, msg.delta_z) + a;
+	direction = Vector(msg.norm_x, msg.norm_y, 0);
 
 	Ring r(origo, direction, ringNumber, chance);
 

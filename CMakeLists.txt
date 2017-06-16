@@ -72,6 +72,7 @@ add_message_files(
    DEPENDENCIES
    std_msgs
    tum_ardrone
+   ring_detector
 	)
 
 ################################################

@@ -34,9 +34,13 @@ void TransformDataListener::setYaw(float y){
 	yaw = y;
 }
 
-TransformDataListener::TransformDataListener(){
-	sub = n.subscribe("/ardrone/predictedPose", 1000, &TransformDataListener::tfCallBack, this);
+void TransformDataListener::spinner(){
+	ros::spin();
 }
 
-
+TransformDataListener::TransformDataListener(){
+	sub = n.subscribe("/ardrone/predictedPose", 1000, &TransformDataListener::tfCallBack, this);
+	std::thread spinThread(spinner);
+	spinThread.detach();
+}
 

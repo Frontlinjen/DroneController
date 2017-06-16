@@ -9,6 +9,7 @@
 #include "TransformDataListener.h"
 #include "Ring.h"
 #include "Vector.h"
+#include "ring_detector/RingData.h"
 
 class RingList{
 	
@@ -24,8 +25,8 @@ class RingList{
 		void updateRing(Ring r1, Ring r2);
 		void updateRingnumber(Ring r1, Ring r2);
 		void updateList(Ring r);
-		void opencvCallback(const std_msgs::String::ConstPtr& msg);
-		void msgHandle(const std_msgs::String::ConstPtr msgPtr);
+		void opencvCallback(const ring_detector::RingData msg);
+		void msgHandle(const ring_detector::RingData msg);
 
 
 	public:
