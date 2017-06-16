@@ -1,15 +1,19 @@
 #include "RingList.h"
 
 RingList::RingList() : loop_rate(10), minAcceptDistance(0.5){
-	ros::Subscriber sub = n.subscribe("opencv", 1000, &RingList::opencvCallback, this);
+	sub = n.subscribe("/circleData", 1000, &RingList::opencvCallback, this);
 
-	//Test ring
+	std::thread spinThread(spinner);
+	spinThread.detach();
+
+	/*//Test ring
 	Vector origo(0,2,1.5);
 	Vector direction(0,1,0);
 	int ringNumber = 1;
 	float chance = 100;
 	Ring r(origo, direction, ringNumber, chance);
 	updateList(r);
+	*/
 }
 
 void RingList::updateRing(Ring newr, Ring old){
@@ -89,6 +93,7 @@ void RingList::updateList(Ring r){
 
 void RingList::opencvCallback(const ring_detector::RingData msg){
 	//ROS_INFO("I heard: [%s]", msg->data.c_str());
+	ROS_INFO("opencvCallback");
 	msgHandle(msg);
 }
 
@@ -106,8 +111,16 @@ void RingList::msgHandle(ring_detector::RingData msg){
 	Ring r(origo, direction, ringNumber, chance);
 
 	updateList(r);
+	ROS_INFO("Ring added to list");
+
 }
 
 int RingList::ringCount(){
 	return ringList.size();
+}
+
+
+void RingList::spinner(){
+	ROS_INFO("Meat spinning now");
+	ros::spin();
 }

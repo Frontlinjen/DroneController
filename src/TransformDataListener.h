@@ -25,5 +25,4 @@ class TransformDataListener{
 		void setPosition(Vector v);
 		void setDirection(Vector v);
 		void setYaw(float yaw);
-		static void spinner();
 };

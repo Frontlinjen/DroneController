@@ -27,7 +27,7 @@ class RingList{
 		void updateList(Ring r);
 		void opencvCallback(const ring_detector::RingData msg);
 		void msgHandle(const ring_detector::RingData msg);
-
+		static void spinner();
 
 	public:
 		RingList();

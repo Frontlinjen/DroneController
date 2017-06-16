@@ -20,11 +20,9 @@ void PointReached::listenForPointReached(){
 }
 
 bool PointReached::isPointReached(){
-	ros::spinOnce();
 	return reached;
 }
 
 bool PointReached::isListening(){
-	ros::spinOnce();
 	return listening;
 }
