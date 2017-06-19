@@ -86,6 +86,7 @@ void Pilot::mainLoop(){
 		commands.prepare();
 		commands.flattrim();
 		commands.autoInit();
+		commands.goTo(0,0,1,0);
 	}
 	while(ros::ok()){ //Main loop
 		switch(currentStatus){
